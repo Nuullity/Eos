@@ -1,3 +1,4 @@
+import os
 import random
 import pyodbc
 from datetime import datetime, timedelta
@@ -205,7 +206,12 @@ with pyodbc.connect(dados_conexao) as Conexao:
 
 
         for i in range (0,total):
+            os.system('cls')
             data = Data_contratacao()
             C_S = cargo_salario()
             cpf = gerar_cpf()
             Commit_Def()
+            # i+1 ( indice inicia em 0, coloco +1 para que o valor fique correto na hora de printar)
+            
+            print(f'adicionado {i+1} de {total}, Feito {(i+1)*100/(total)}% ')
+
