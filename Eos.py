@@ -15,7 +15,7 @@ salario=[1024,1320,1900,5200]
 #--------------------------------------------------------------------------------------------------------------------------------
 
 
-def Nomes():
+def Nomes(total):
 
     # Lista de nomes femininos
     nomes_femininos = [
@@ -60,11 +60,19 @@ def Nomes():
     # Criação da lista final com 1600 nomes
     nomes = []
 
-    for _ in range(800):
+
+        
+    qtdn_fem =  total // 2 # divide por 2 e separa o valor inteiro
+    qtdn_masc = total - qtdn_fem # confere quantos nomes faltam ate o total definido e entao define o numero de nomes masculinos
+
+
+
+
+    for _ in range(qtdn_fem):
         nome_completo = random.choice(nomes_femininos) + ' ' + random.choice(sobrenomes)
         nomes.append(nome_completo)
 
-    for _ in range(800):
+    for _ in range(qtdn_masc):
         nome_completo = random.choice(nomes_masculinos) + ' ' + random.choice(sobrenomes)
         nomes.append(nome_completo)
 
@@ -161,26 +169,42 @@ def Commit_Def():
 
 
 
+
+
+
+
+Server = input("digite o nome de seu servidor (Caso seja Local, utilize o nome de sua maquina): ")
+if Server == '1':
+   Server = 'DESKTOP-HETLCUJ'
+   #colocando o valor de minha maquina para que eu não precise digitar todas as vezes 
+DB = input("digite o nome de seu Banco de dados: ")
+if DB == '1':
+   DB = 'DESTRUICAO'
+   #colocando o valor de minha BD para que eu não precise digitar todas as vezes 
 dados_conexao = (
+
+    
         "Driver={SQL Server};"
         #Nome do server ( se for local será o nome da maquina)
-        "Server=DESKTOP-HETLCUJ;"
+        f"Server={Server};"
         #Nome da DB
-        "database=DESTRUICAO;"
+        f"database={DB};"
 )
 
 
 
-nome= Nomes()
+total = int(input('quantos nomes deseja gerar ? '))
+nome= Nomes(total)
 data = Data_contratacao()
 
-    
+
+
+
 with pyodbc.connect(dados_conexao) as Conexao:             
     with Conexao.cursor() as Cursor:
-        
 
 
-        for i in range (0,1600):
+        for i in range (0,total):
             data = Data_contratacao()
             C_S = cargo_salario()
             cpf = gerar_cpf()
